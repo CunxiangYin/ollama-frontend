@@ -1,0 +1,18 @@
+<\!DOCTYPE html>
+<html>
+<head>
+    <title>清理存储</title>
+</head>
+<body>
+    <h1>清理本地存储</h1>
+    <button onclick="clearStorage()">清理存储并刷新</button>
+    <script>
+        function clearStorage() {
+            localStorage.clear();
+            sessionStorage.clear();
+            alert('存储已清理，即将刷新页面使用新配置');
+            window.location.href = 'http://localhost:3000';
+        }
+    </script>
+</body>
+</html>
