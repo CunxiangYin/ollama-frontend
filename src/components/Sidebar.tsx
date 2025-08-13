@@ -6,9 +6,10 @@ interface SidebarProps {
   onOpenSettings: () => void;
   onToggleTheme: () => void;
   theme: 'light' | 'dark';
+  onSelectConversation?: () => void;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ onOpenSettings }) => {
+export const Sidebar: React.FC<SidebarProps> = ({ onOpenSettings, onSelectConversation }) => {
   const {
     conversations,
     currentConversationId,
@@ -36,7 +37,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenSettings }) => {
 
   return (
     <div 
-      className="w-72 flex flex-col h-full"
+      className="w-72 md:w-72 flex flex-col h-full"
       style={{ 
         background: 'var(--claude-sidebar-bg)',
         borderRight: '1px solid var(--claude-border-light)'
@@ -83,7 +84,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ onOpenSettings }) => {
         {conversations.map((conversation) => (
           <div
             key={conversation.id}
-            onClick={() => selectConversation(conversation.id)}
+            onClick={() => {
+              selectConversation(conversation.id);
+              onSelectConversation?.();
+            }}
             className={`group relative px-3 py-2 mb-0.5 rounded-lg cursor-pointer transition-all duration-150 ${
               currentConversationId === conversation.id ? 'bg-white/50 dark:bg-white/5' : ''
             }`}

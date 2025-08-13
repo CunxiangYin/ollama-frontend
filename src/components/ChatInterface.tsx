@@ -5,7 +5,11 @@ import { OllamaService } from '../services/ollamaService';
 import { MessageItem } from './MessageItem';
 import { Message } from '../types';
 
-export const ChatInterface: React.FC = () => {
+interface ChatInterfaceProps {
+  isMobile?: boolean;
+}
+
+export const ChatInterface: React.FC<ChatInterfaceProps> = ({ isMobile }) => {
   const {
     conversations,
     currentConversationId,
@@ -140,12 +144,13 @@ export const ChatInterface: React.FC = () => {
   return (
     <div className="flex-1 flex flex-col h-full" style={{ background: 'var(--claude-bg-primary)' }}>
       {/* Header */}
-      <div className="px-6 py-3 border-b" style={{ borderColor: 'var(--claude-border-light)', background: 'var(--claude-bg-secondary)' }}>
+      <div className="px-4 md:px-6 py-3 border-b" style={{ borderColor: 'var(--claude-border-light)', background: 'var(--claude-bg-secondary)' }}>
         <div className="flex items-center justify-between">
-          <h1 className="font-semibold" style={{ 
+          <h1 className="font-semibold truncate" style={{ 
             color: 'var(--claude-text-primary)',
-            fontSize: '16px',
-            fontWeight: 600
+            fontSize: isMobile ? '14px' : '16px',
+            fontWeight: 600,
+            paddingLeft: isMobile ? '40px' : '0'
           }}>
             {currentConversation.title}
           </h1>
@@ -164,7 +169,7 @@ export const ChatInterface: React.FC = () => {
 
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto px-0 md:px-4">
           {currentConversation.messages.length === 0 ? (
             <div className="flex items-center justify-center h-full py-20">
               <div className="text-center max-w-md">
@@ -218,24 +223,26 @@ export const ChatInterface: React.FC = () => {
 
       {/* Input Area */}
       <div className="border-t" style={{ borderColor: 'var(--claude-border-light)', background: 'var(--claude-bg-secondary)' }}>
-        <div className="max-w-4xl mx-auto px-6 py-4">
+        <div className="max-w-4xl mx-auto px-4 md:px-6 py-3 md:py-4">
           {!isConnected && (
             <div className="mb-3 px-3 py-2 rounded-lg text-sm" style={{ background: '#fee', color: '#c00' }}>
               Not connected to Ollama. Please check your settings.
             </div>
           )}
           <div className="relative flex items-end gap-2">
-            <button
-              className="p-2.5 rounded-lg transition-colors"
-              style={{ 
-                color: 'var(--claude-text-tertiary)',
-                background: 'var(--claude-hover)'
-              }}
-              title="Attach file"
-              disabled
-            >
-              <PaperClipIcon className="w-5 h-5" />
-            </button>
+            {!isMobile && (
+              <button
+                className="p-2.5 rounded-lg transition-colors"
+                style={{ 
+                  color: 'var(--claude-text-tertiary)',
+                  background: 'var(--claude-hover)'
+                }}
+                title="Attach file"
+                disabled
+              >
+                <PaperClipIcon className="w-5 h-5" />
+              </button>
+            )}
             
             <div className="flex-1 relative">
               <textarea
@@ -248,9 +255,9 @@ export const ChatInterface: React.FC = () => {
                     handleSend();
                   }
                 }}
-                placeholder="Reply to Claude..."
+                placeholder={isMobile ? "Message..." : "Reply to Claude..."}
                 disabled={!isConnected || isGenerating}
-                className="w-full px-4 py-3 resize-none rounded-lg focus:outline-none transition-all"
+                className="w-full px-3 md:px-4 py-2 md:py-3 resize-none rounded-lg focus:outline-none transition-all"
                 style={{
                   background: 'var(--claude-input-bg)',
                   color: 'var(--claude-text-primary)',
@@ -292,9 +299,11 @@ export const ChatInterface: React.FC = () => {
             </button>
           </div>
           
-          <div className="mt-2 text-xs text-center" style={{ color: 'var(--claude-text-tertiary)' }}>
-            Claude can make mistakes. Please double-check responses.
-          </div>
+          {!isMobile && (
+            <div className="mt-2 text-xs text-center" style={{ color: 'var(--claude-text-tertiary)' }}>
+              Claude can make mistakes. Please double-check responses.
+            </div>
+          )}
         </div>
       </div>
     </div>

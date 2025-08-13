@@ -7,9 +7,10 @@ import { OllamaService } from '../services/ollamaService';
 interface SettingsModalProps {
   isOpen: boolean;
   onClose: () => void;
+  isMobile?: boolean;
 }
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose }) => {
+export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, isMobile }) => {
   const { settings, updateSettings, setModels, setConnectionStatus, currentConversationId, conversations, updateModelConfig } = useStore();
   const [localSettings, setLocalSettings] = useState(settings);
   const [testing, setTesting] = useState(false);
@@ -69,7 +70,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
       <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
       
       <div className="fixed inset-0 flex items-center justify-center p-4">
-        <Dialog.Panel className="mx-auto max-w-2xl w-full bg-white dark:bg-gray-800 rounded-xl shadow-xl">
+        <Dialog.Panel className={`mx-auto ${isMobile ? 'w-full h-full' : 'max-w-2xl w-full'} bg-white dark:bg-gray-800 ${isMobile ? '' : 'rounded-xl'} shadow-xl`}>
           <div className="flex items-center justify-between p-6 border-b dark:border-gray-700">
             <Dialog.Title className="text-xl font-semibold dark:text-white">Settings</Dialog.Title>
             <button
@@ -80,7 +81,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose })
             </button>
           </div>
 
-          <div className="p-6 space-y-6 max-h-[60vh] overflow-y-auto">
+          <div className={`${isMobile ? 'p-4' : 'p-6'} space-y-6 ${isMobile ? 'max-h-[calc(100vh-120px)]' : 'max-h-[60vh]'} overflow-y-auto`}>
             {/* Connection Settings */}
             <div>
               <h3 className="text-lg font-medium mb-4 dark:text-white">Ollama Connection</h3>

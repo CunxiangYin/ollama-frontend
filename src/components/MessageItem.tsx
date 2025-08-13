@@ -32,7 +32,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, onRegenerate,
 
   return (
     <div 
-      className="group relative px-6 py-6 transition-colors"
+      className="group relative px-4 md:px-6 py-4 md:py-6 transition-colors"
       style={{ 
         background: message.role === 'assistant' 
           ? 'var(--claude-message-assistant)' 
@@ -41,11 +41,11 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, onRegenerate,
       }}
     >
       <div className="max-w-4xl mx-auto">
-        <div className="flex gap-4">
+        <div className="flex gap-3 md:gap-4">
           {/* Avatar */}
           <div className="flex-shrink-0">
             <div 
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-semibold"
+              className="w-7 h-7 md:w-8 md:h-8 rounded-lg flex items-center justify-center text-xs md:text-sm font-semibold"
               style={{
                 background: message.role === 'user' 
                   ? 'var(--claude-text-primary)' 
@@ -121,7 +121,7 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, onRegenerate,
                 className="prose prose-sm max-w-none"
                 style={{ 
                   color: 'var(--claude-text-primary)',
-                  fontSize: '15px',
+                  fontSize: window.innerWidth < 768 ? '14px' : '15px',
                   lineHeight: '1.75',
                   fontWeight: 400
                 }}
@@ -263,35 +263,35 @@ export const MessageItem: React.FC<MessageItemProps> = ({ message, onRegenerate,
             )}
             
             {/* Actions */}
-            <div className="flex gap-1 mt-4 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <div className="flex gap-1 mt-3 md:mt-4 opacity-100 md:opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-200">
               <button
                 onClick={handleCopy}
-                className="p-2 rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/10"
+                className="p-1.5 md:p-2 rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/10"
                 style={{ color: 'var(--claude-text-tertiary)' }}
                 title="Copy message"
               >
-                {copied ? <CheckIcon className="w-4 h-4" /> : <ClipboardIcon className="w-4 h-4" />}
+                {copied ? <CheckIcon className="w-3.5 h-3.5 md:w-4 md:h-4" /> : <ClipboardIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />}
               </button>
               
               {message.role === 'user' && onEdit && (
                 <button
                   onClick={() => setIsEditing(true)}
-                  className="p-2 rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/10"
+                  className="p-1.5 md:p-2 rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/10"
                   style={{ color: 'var(--claude-text-tertiary)' }}
                   title="Edit message"
                 >
-                  <PencilIcon className="w-4 h-4" />
+                  <PencilIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 </button>
               )}
               
               {message.role === 'assistant' && onRegenerate && (
                 <button
                   onClick={onRegenerate}
-                  className="p-2 rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/10"
+                  className="p-1.5 md:p-2 rounded-lg transition-all hover:bg-black/5 dark:hover:bg-white/10"
                   style={{ color: 'var(--claude-text-tertiary)' }}
                   title="Regenerate response"
                 >
-                  <ArrowPathIcon className="w-4 h-4" />
+                  <ArrowPathIcon className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 </button>
               )}
             </div>
